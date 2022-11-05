@@ -15,6 +15,10 @@ def appStarted(app):
 def drawLives(app, canvas, foodCollected):
     if foodCollected < app.minFood:
         app.lives.pop(0)
+    elif foodCollected > app.threshold and len(app.lives) < 3:
+        life = app.lives[0] 
+        app.lives.append((life[0] - 70, 300))
+        app.lives = sorted(app.lives)
     for heart in app.lives:
         cx, cy = heart[0], heart[1]
         canvas.create_arc(cx - app.heartR*2, cy - app.heartR, 
