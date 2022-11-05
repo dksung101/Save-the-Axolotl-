@@ -4,9 +4,8 @@ from cmu_112_graphics import *
 import math, copy
 import time
 
-appWindow = tk.Tk() 
-ans = simpledialog.askstring("Input", "Enter desired duration",
-                                parent=appWindow)
+ans = simpledialog.askstring("Timer duration input", 
+"Enter desired timer duration")
 
 def mean(x,y):
     return (x+y)/2
