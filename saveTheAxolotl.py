@@ -19,9 +19,11 @@ def appStarted(app):
     #lives 
     app.lives = [(100, 300),(170, 300),(240,300)]
     app.heartR = 5
-    app.minFood = 10
-    app.threshold = 30
-    app.foodCollected = 20
+    app.minFood = 5
+    app.threshold = 10
+    app.state = True
+    app.mood = 'happy'
+    # app.foodCollected = 20
 
 def mousePressed(app, event):
     for (row, col, speed, radius) in app.bubbles:
@@ -49,7 +51,6 @@ def moveBubbleUp(app):
     app.bubbles = newLocations
     
 def createBubble(app):
-    print(1)
     row = app.rows-1
     col = random.randint(0, app.cols-1)
     speed = random.randint(1, 3)*0.2
@@ -68,12 +69,31 @@ def getCellBounds(app, row, col):
 def timerFired(app):
     app.totalTime+=app.timerDelay
     if app.totalTime%500 == 0:
-        createBubble(app)
+        createBubble(app) 
     moveBubbleUp(app)
+
+    if len(app.lives) == 3:
+        app.mood = 'happy'
+    elif len(app.lives) == 2:
+        app.mood = 'neutral'
+    else:
+        app.mood = 'frown'
+
+    if app.totalTime == 8000:
+        changeLives(app, app.count)
+        app.totalTime = 0 
+        app.count = 0
+
+def checkMood(app, canvas):
+    if len(app.lives) == 3:
+        app.mood = 'happy'
+    elif len(app.lives) == 2:
+        app.mood = 'neutral'
+    else:
+        app.mood = 'frown'
 
 def drawCount(app, canvas):
     canvas.create_text(app.width/2, app.height-40, text=f'Score: {app.count}!', fill='red', font='TimesNewRoman 12 bold')
-
 
 def drawAxolotl(app, canvas, cx, cy, rw, rh):
     #face
@@ -87,21 +107,20 @@ def drawAxolotl(app, canvas, cx, cy, rw, rh):
     canvas.create_oval(1.4*cx, 0.95*cy, 1.5*cx, cy, outline = 'black', fill = 'black')
     canvas.create_oval(1.41*cx, 0.97*cy, 1.44*cx, 0.99*cy, outline = 'black', fill = 'white')
 
-
-    #mouth 
-    #smiling
-    canvas.create_line(0.47*cx, 1.1*cy, cx, 1.3*cy, 1.53*cx, 1.1*cy, 
-                        fill="black", width = 3, smooth = True)
-    canvas.create_line(0.47*cx, 1.1*cy, 1.53*cx, 1.1*cy, 
-                        fill="black", width = 3, smooth = True)
-    #mid 
-    canvas.create_line(0.47*cx, 1.1*cy, 1.53*cx, 1.1*cy, 
-                        fill="black", width = 3, smooth = True)
-    #frown
-    # canvas.create_line(0.47*cx, 1.1*cy, cx, cy, 1.53*cx, 1.1*cy, 
-    #                     fill="black", width = 3, smooth = True)
-    # canvas.create_line(0.47*cx, 1.1*cy, 1.53*cx, 1.1*cy, 
-    #                     fill="black", width = 3, smooth = True)
+    #mouth
+    if app.mood == 'happy':
+        canvas.create_line(0.47*cx, 1.1*cy, cx, 1.3*cy, 1.53*cx, 1.1*cy, 
+                            fill="black", width = 3, smooth = True)
+        canvas.create_line(0.47*cx, 1.1*cy, 1.53*cx, 1.1*cy, 
+                            fill="black", width = 3, smooth = True)
+    elif app.mood == 'neutral':
+        canvas.create_line(0.47*cx, 1.1*cy, 1.53*cx, 1.1*cy, 
+                            fill="black", width = 3, smooth = True)
+    elif app.mood == 'frown':
+        canvas.create_line(0.47*cx, 1.1*cy, cx, cy, 1.53*cx, 1.1*cy, 
+                            fill="black", width = 3, smooth = True)
+        canvas.create_line(0.47*cx, 1.1*cy, 1.53*cx, 1.1*cy, 
+                            fill="black", width = 3, smooth = True)
 
     #earR1
     canvas.create_line(1.4*cx, 0.79*cy, 1.8*cx, 0.34*cy, width = 3, fill = 'black')
@@ -128,12 +147,15 @@ def drawAxolotl(app, canvas, cx, cy, rw, rh):
     canvas.create_line(cx - rw, cy, 0.05*cx, 0.8*cy, width = 3, fill = 'black')
     canvas.create_line(0.05*cx, 0.8*cy, 0.15*cx, cy, 0.36*cx, 1.1*cy, 
                         width = 3, fill = 'black', smooth = True)
-def drawLives(app, canvas, foodCollected):
+
+def changeLives(app, foodCollected):
     if foodCollected < app.minFood:
         app.lives.pop(0)
     elif foodCollected > app.threshold and len(app.lives) < 3:
         life = app.lives[0] 
         app.lives.insert(0,(life[0] - 70, 300))
+    
+def drawLives(app, canvas):
     for heart in app.lives:
         cx, cy = heart[0], heart[1]
         canvas.create_arc(cx - app.heartR*2, cy - app.heartR, 
@@ -148,8 +170,9 @@ def drawLives(app, canvas, foodCollected):
 
 def redrawAll(app, canvas):
     drawAxolotl(app, canvas, app.cx, app.cy, app.rw, app.rh)
-    drawLives(app, canvas, app.foodCollected)
+    drawLives(app, canvas)
     drawBubbles(app, canvas)
     drawCount(app, canvas)
+    # changeLives(app, canvas, app.count)
 
 runApp(width=440, height = 680)
