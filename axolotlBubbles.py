@@ -17,20 +17,14 @@ def mousePressed(app, event):
         if (event.x >= x0-radius and event.x <= x1+radius) and (event.y >= y0-radius and event.y <= y1+radius):
             app.bubbles.remove((row, col, speed, radius))
             app.count+=1
-            # popBubble(app, (row, col, speed))
 
 def drawBubbles(app, canvas):
     for (row, col, speed, radius) in app.bubbles:
         (x0, y0, x1, y1) = getCellBounds(app, row, col)
         canvas.create_oval(x0-radius, y0-radius, x1+radius, y1+radius, width=1.5)
         
-# def popBubble(app):
-#     for 
-    
-def moveBubbleUp(app):
+def moveBubbleUp(app): 
     newLocations = []
-    # speed = random.randint(0, 3)
-
     for (row, col, speed, radius) in app.bubbles:
         newCol = col
         newRow = row-speed
