@@ -22,15 +22,19 @@ def drawAxolotl(app, canvas, cx, cy, rw, rh):
     # canvas.create_oval(0.55*cx, 0.95*cy, 0.65*cx, cy, outline = 'black', fill = 'black')
     # canvas.create_oval(0.6*cx, 0.97*cy, 0.64*cx, 0.99*cy, outline = 'black', fill = 'white')
     #die
-    canvas.create_line(0.55*cx, 0.95*cy, 0.65*cx, cy, fill = 'black', width = 4)
-    canvas.create_line(0.55*cx, cy, 0.65*cx, 0.95*cy, fill = 'black', width = 4)
+    # canvas.create_line(0.55*cx, 0.95*cy, 0.65*cx, cy, fill = 'black', width = 4)
+    # canvas.create_line(0.55*cx, cy, 0.65*cx, 0.95*cy, fill = 'black', width = 4)
+    #sleep
+    canvas.create_line(0.55*cx, 0.975*cy, 0.65*cx, 0.975*cy, fill = 'black', width = 4)
 
     #eyeR
     # canvas.create_oval(1.4*cx, 0.95*cy, 1.5*cx, cy, outline = 'black', fill = 'black')
     # canvas.create_oval(1.41*cx, 0.97*cy, 1.44*cx, 0.99*cy, outline = 'black', fill = 'white')
     #die
-    canvas.create_line(1.4*cx, 0.95*cy, 1.5*cx, cy, fill = 'black', width = 4)
-    canvas.create_line(1.4*cx, cy, 1.5*cx, 0.95*cy, fill = 'black', width = 4)
+    # canvas.create_line(1.4*cx, 0.95*cy, 1.5*cx, cy, fill = 'black', width = 4)
+    # canvas.create_line(1.4*cx, cy, 1.5*cx, 0.95*cy, fill = 'black', width = 4)
+    #sleep
+    canvas.create_line(1.4*cx, 0.975*cy, 1.5*cx, 0.975*cy, fill = 'black', width = 4)
 
 
     #mouth 
@@ -39,16 +43,16 @@ def drawAxolotl(app, canvas, cx, cy, rw, rh):
     #                     fill="black", width = 3, smooth = True)
     # canvas.create_line(0.47*cx, 1.1*cy, 1.53*cx, 1.1*cy, 
     #                     fill="black", width = 3, smooth = True)
-    # canvas.create_arc(0.47*cx, 1.1*cy, 1.53*cx, 1.1*cy,
-    #                 start = 0, extent=-180, outline="black", width = 5)
     # # #mid 
     # canvas.create_line(0.47*cx, 1.1*cy, 1.53*cx, 1.1*cy, 
     #                     fill="black", width = 3, smooth = True)
     # #frown
-    canvas.create_line(0.47*cx, 1.1*cy, cx, cy, 1.53*cx, 1.1*cy, 
-                        fill="black", width = 3, smooth = True)
-    canvas.create_line(0.47*cx, 1.1*cy, 1.53*cx, 1.1*cy, 
-                        fill="black", width = 3, smooth = True)
+    # canvas.create_line(0.47*cx, 1.1*cy, cx, cy, 1.53*cx, 1.1*cy, 
+    #                     fill="black", width = 3, smooth = True)
+    # canvas.create_line(0.47*cx, 1.1*cy, 1.53*cx, 1.1*cy, 
+    #                     fill="black", width = 3, smooth = True)
+    #sleep
+    canvas.create_oval(cx-0.2*rw,1.1*cy,cx+0.2*rw,1.2*cy-2, outline = 'black', fill = 'salmon', width = 3)
 
     #earR1
     canvas.create_line(1.4*cx, 0.79*cy, 1.8*cx, 0.34*cy, width = 3, fill = 'black')
