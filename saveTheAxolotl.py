@@ -34,7 +34,7 @@ def appStarted(app):
     app.timerConfigState = None
     app.timerDuration = None
     app.timeFormatted = None
-    app.timerCoords = (0.75*app.cx, 1.4*app.cy, 1.25*app.cx, 1.6*app.cy)
+    app.timerCoords = (0.60*app.cx, 1.4*app.cy, 1.4*app.cx, 1.6*app.cy)
 
 def mousePressed(app, event):
     for (row, col, speed, radius) in app.bubbles:
@@ -48,7 +48,7 @@ def mousePressed(app, event):
         and event.y <= app.timerCoords[3] and event.y >= app.timerCoords[1]:
         app.timerDuration = simpledialog.askstring("Timer duration input", 
         "Enter desired timer duration")
-        if app.timerDuration != None:
+        if app.timerDuration != None and int(app.timerDuration)>0:
             app.timerDuration = int(app.timerDuration)*60
             mins, secs = app.timerDuration // 60, app.timerDuration % 60
             app.timeFormatted = '{:02d}:{:02d}'.format(mins, secs)
@@ -233,7 +233,7 @@ def drawCustTimerButton(app, canvas):
         fill='white')
     canvas.create_text(
         app.cx, int(mean(app.timerCoords[3], app.timerCoords[1])), 
-        text=f"Custom duration", font=f'Arial {fontSize} bold')
+        text=f"Set duration", font=f'Arial {fontSize} bold')
 
 def redrawAll(app, canvas):
     drawAxolotl(app, canvas, app.cx, app.cy, app.rw, app.rh)
