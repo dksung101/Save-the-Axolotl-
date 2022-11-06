@@ -115,7 +115,7 @@ def timerFired(app):
         app.timerDuration = None
 
 
-    if app.totalTime == 1000 and app.timerConfigState == False: 
+    if app.totalTime == 30000 and app.timerConfigState == False: 
         app.timerConfigState = None
 
     if app.timerConfigState==True:
