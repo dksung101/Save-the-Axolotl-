@@ -19,7 +19,7 @@ def appStarted(app):
     #lives 
     app.lives = [(320, 30),(360, 30),(400,30)]
     app.heartR = 5
-    app.minFood = 5
+    app.minOil = 5
     app.threshold = 10
     app.state = True
     app.mood = 'happy'
@@ -155,7 +155,7 @@ def drawAxolotl(app, canvas, cx, cy, rw, rh):
                         width = 3, fill = 'black', smooth = True)
 
 def changeLives(app, foodCollected):
-    if foodCollected < app.minFood:
+    if foodCollected < app.minOil:
         app.lives.pop(0)
     elif foodCollected > app.threshold and len(app.lives) < 3:
         life = app.lives[0] 
