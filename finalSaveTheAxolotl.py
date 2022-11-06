@@ -1,6 +1,7 @@
 from cmu_112_graphics import *
 import tkinter as tk
 from tkinter import simpledialog 
+from tkinter import font 
 import random
 from cmu_112_graphics import *
 import math, copy
@@ -11,6 +12,7 @@ def mean(x,y):
     return (x+y)/2
 
 def appStarted(app):
+    app.start = True
     app.bubbles = []
     app.cols = 20
     app.rows = 40
@@ -36,6 +38,10 @@ def appStarted(app):
     app.timeFormatted = None
     app.timerCoords = (0.60*app.cx, 1.4*app.cy, 1.4*app.cx, 1.6*app.cy)
 
+def keyPressed(app, event):
+    if event.key == "Space":
+        app.start = False
+
 def mousePressed(app, event):
     for (row, col, speed, radius) in app.bubbles:
         (x0, y0, x1, y1) = getCellBounds(app, row, col)
@@ -58,8 +64,7 @@ def drawBubbles(app, canvas):
     for (row, col, speed, radius) in app.bubbles:
         (x0, y0, x1, y1) = getCellBounds(app, row, col)
         canvas.create_oval(x0-radius, y0-radius, x1+radius, y1+radius, fill='black')
-        
-    
+          
 def moveBubbleUp(app):
     newLocations = []
     # speed = random.randint(0, 3)
@@ -119,36 +124,25 @@ def timerFired(app):
         app.mood = 'frown'
     elif len(app.lives) == 0:
         app.mood = 'dead'
-    # elif 
 
     if app.totalTime == 29950 and app.timerConfigState == False:
         changeLives(app, app.count)
         app.count = 0
 
-# def checkMood(app, canvas):
-#     print(app.timerConfigState)
-#     if len(app.lives) == 3:
-#         app.mood = 'happy'
-#     elif len(app.lives) == 2:
-#         app.mood = 'neutral'
-#     elif len(app.lives) == 1:
-#         app.mood = 'frown'
-#     elif len(app.lives) == 0:
-#         app.mood = 'dead'
-#     elif app.timerConfigState==True:
-#         app.mood = 'sleep'
-
 def drawTimer(app, canvas):
+    fontDirections = font.Font(family = 'Comic Sans MS', size = 12, weight = 'bold')
     timeInSeconds = 30-app.totalTime//1000
     if timeInSeconds<0:
         timeInSeconds = 0
     if timeInSeconds > 10:
-        canvas.create_text(app.width/2, app.height-640, text=f'{timeInSeconds} seconds left', fill='black', font='TimesNewRoman 12 bold')
+        canvas.create_text(app.width/2, app.height-640, text=f'{timeInSeconds} seconds left', fill='hot pink', font = fontDirections)
     else: 
-        canvas.create_text(app.width/2, app.height-640, text=f'Only {timeInSeconds} seconds left!', fill='red', font='TimesNewRoman 12 bold')
+        canvas.create_text(app.width/2, app.height-640, text=f'Only {timeInSeconds} seconds left!', fill='hot pink', font = fontDirections)
 
 def drawCount(app, canvas):
-    canvas.create_text(app.width/2, app.height-40, text=f'Score: {app.count}', fill='red', font='TimesNewRoman 12 bold')
+    fontDirections = font.Font(family = 'Comic Sans MS', size = 12, weight = 'bold')
+    canvas.create_text(app.width/2, app.height-40, text=f'Score: {app.count}', fill='hot pink', 
+                       font = fontDirections)
 
 def drawAxolotl(app, canvas, cx, cy, rw, rh):
     #face
@@ -238,6 +232,9 @@ def drawAxolotl(app, canvas, cx, cy, rw, rh):
                         width = 3, fill = 'black', smooth = True)
 
 def changeLives(app, foodCollected):
+    if len(app.lives) == 0:
+        appStarted(app)
+        app.start = False
     if foodCollected < app.minOil:
         app.lives.pop(0)
         print(app.lives)
@@ -263,7 +260,7 @@ def drawMainTimer(app, canvas):
     canvas.create_rectangle(
         app.timerCoords[0], app.timerCoords[1], 
         app.timerCoords[2], app.timerCoords[3], 
-        fill='blue', width=0)
+        fill='hot pink', width=0)
     canvas.create_text(
         app.cx, int(mean(app.timerCoords[3], app.timerCoords[1])), 
         text=f"{app.timeFormatted}", font=f'Arial {fontSize} bold', fill='white')
@@ -279,15 +276,44 @@ def drawCustTimerButton(app, canvas):
         text=f"Set duration", font=f'Arial {fontSize} bold', fill = 'black')
 
 def redrawAll(app, canvas):
-    drawAxolotl(app, canvas, app.cx, app.cy, app.rw, app.rh)
-    drawLives(app, canvas)
-    drawCount(app, canvas)
-    if app.timerConfigState == False:
-        drawTimer(app, canvas)
-        drawBubbles(app, canvas)
-    elif app.timerConfigState == True:
-        drawMainTimer(app, canvas)
-    elif app.timerConfigState == None:
-        drawCustTimerButton(app, canvas)
+    if app.start:
+        canvas.create_rectangle(0, 0, app.width, app.height, fill = "light blue")
+        fontDirections = font.Font(family = 'Comic Sans MS', size = 50, weight = 'bold')
+        canvas.create_text(app.width/2, 150, text = "Save the Axolotl", fill = "hot pink", 
+                           font = fontDirections)
+        fontDirec2 = font.Font(family = 'Comic Sans MS', size = 12, weight = 'bold')
+        description = """
+Welcome! This is Kimchee the axolotl! 
+Did you know… axolotls are critically endangered 
+species in the wild?!
+
+Over the past few decades, oil spills, waste water 
+disposals, and many other environmental 
+factors has contributed to this specie’s decreasing population. 
+This productive and interactive application, will not only 
+let you stay productive by managing your 
+time off your phone through a countdown timer, 
+but also, spreads awareness of the axolotls 
+endangered from the oil spills. Also, once the timer 
+goes off, you can engage in an interactive 
+game where you need to pop as many oil bubbles that 
+arise keeping the axolotls save. If you don’t 
+reach a minimum threshold given the set time, you 
+will lose a life risking Kimchee from dying!!!"""
+        inList = description.splitlines()
+        for i in range(len(inList)):
+            canvas.create_text(app.width/2, 200 + 20*i, text = inList[i].center(10, " "),
+                                fill = "hot pink", font = fontDirec2, anchor = 'n')
+    else: 
+        drawAxolotl(app, canvas, app.cx, app.cy, app.rw, app.rh)
+        drawLives(app, canvas)
+        drawCount(app, canvas)
+        if app.timerConfigState == False:
+            drawTimer(app, canvas)
+            drawBubbles(app, canvas)
+        elif app.timerConfigState == True:
+            drawMainTimer(app, canvas)
+        elif app.timerConfigState == None:
+            drawCustTimerButton(app, canvas)
 
 runApp(width=440, height = 680)
