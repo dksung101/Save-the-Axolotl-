@@ -17,7 +17,7 @@ def appStarted(app):
     app.rw = 150 
     app.rh = 90
     #lives 
-    app.lives = [(100, 300),(170, 300),(240,300)]
+    app.lives = [(320, 30),(360, 30),(400,30)]
     app.heartR = 5
     app.minFood = 5
     app.threshold = 10
@@ -159,7 +159,7 @@ def changeLives(app, foodCollected):
         app.lives.pop(0)
     elif foodCollected > app.threshold and len(app.lives) < 3:
         life = app.lives[0] 
-        app.lives.insert(0,(life[0] - 70, 300))
+        app.lives.insert(0,(life[0] - 40, 30))
     
 def drawLives(app, canvas):
     for heart in app.lives:
