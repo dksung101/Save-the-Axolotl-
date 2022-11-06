@@ -176,8 +176,6 @@ def drawAxolotl(app, canvas, cx, cy, rw, rh):
         canvas.create_oval(1.4*cx, 0.95*cy, 1.5*cx, cy, outline = 'black', fill = 'black')
         canvas.create_oval(1.41*cx, 0.97*cy, 1.44*cx, 0.99*cy, outline = 'black', fill = 'white')
         #mouth
-        canvas.create_line(0.47*cx, 1.1*cy, cx, 1.3*cy, 1.53*cx, 1.1*cy, 
-                            fill="black", width = 3, smooth = True)
         canvas.create_line(0.47*cx, 1.1*cy, 1.53*cx, 1.1*cy, 
                             fill="black", width = 3, smooth = True)
     elif app.mood == 'frown':
@@ -187,8 +185,6 @@ def drawAxolotl(app, canvas, cx, cy, rw, rh):
         #eyeR
         canvas.create_oval(1.4*cx, 0.95*cy, 1.5*cx, cy, outline = 'black', fill = 'black')
         canvas.create_oval(1.41*cx, 0.97*cy, 1.44*cx, 0.99*cy, outline = 'black', fill = 'white')
-        canvas.create_line(0.47*cx, 1.1*cy, cx, 1.3*cy, 1.53*cx, 1.1*cy, 
-                            fill="black", width = 3, smooth = True)
         #mouth
         canvas.create_line(0.47*cx, 1.1*cy, cx, cy, 1.53*cx, 1.1*cy, 
                             fill="black", width = 3, smooth = True)
