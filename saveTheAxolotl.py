@@ -68,7 +68,8 @@ def getCellBounds(app, row, col):
 
 def timerFired(app):
     app.totalTime+=app.timerDelay
-    if app.totalTime%500 == 0:
+    print(app.totalTime)
+    if app.totalTime%500 == 0 and app.totalTime<=30000:
         createBubble(app) 
     moveBubbleUp(app)
 
@@ -79,9 +80,8 @@ def timerFired(app):
     else:
         app.mood = 'frown'
 
-    if app.totalTime == 8000:
+    if app.totalTime%30000 == 0:
         changeLives(app, app.count)
-        app.totalTime = 0 
         app.count = 0
 
 def checkMood(app, canvas):
@@ -91,6 +91,12 @@ def checkMood(app, canvas):
         app.mood = 'neutral'
     else:
         app.mood = 'frown'
+
+def drawTimer(app, canvas):
+    timeInSeconds = 30-app.totalTime//1000
+    if timeInSeconds<0:
+        timeInSeconds = 0
+    canvas.create_text(app.width/2, app.height-640, text=f'Time LEFT: {timeInSeconds}!', fill='red', font='TimesNewRoman 12 bold')
 
 def drawCount(app, canvas):
     canvas.create_text(app.width/2, app.height-40, text=f'Score: {app.count}!', fill='red', font='TimesNewRoman 12 bold')
@@ -173,6 +179,7 @@ def redrawAll(app, canvas):
     drawLives(app, canvas)
     drawBubbles(app, canvas)
     drawCount(app, canvas)
+    drawTimer(app, canvas)
     # changeLives(app, canvas, app.count)
 
 runApp(width=440, height = 680)
