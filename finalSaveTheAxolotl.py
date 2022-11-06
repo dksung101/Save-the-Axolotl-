@@ -13,6 +13,7 @@ def mean(x,y):
 
 def appStarted(app):
     app.start = True
+    app.gameOver = False
     app.bubbles = []
     app.cols = 20
     app.rows = 40
@@ -40,6 +41,9 @@ def appStarted(app):
 
 def keyPressed(app, event):
     if event.key == "Space":
+        app.start = False
+    if event.key == "r":
+        appStarted(app)
         app.start = False
 
 def mousePressed(app, event):
@@ -111,7 +115,7 @@ def timerFired(app):
         app.timerDuration = None
 
 
-    if app.totalTime == 30000 and app.timerConfigState == False: 
+    if app.totalTime == 1000 and app.timerConfigState == False: 
         app.timerConfigState = None
 
     if app.timerConfigState==True:
@@ -124,6 +128,7 @@ def timerFired(app):
         app.mood = 'frown'
     elif len(app.lives) == 0:
         app.mood = 'dead'
+        app.gameOver = True
 
     if app.totalTime == 29950 and app.timerConfigState == False:
         changeLives(app, app.count)
@@ -232,9 +237,6 @@ def drawAxolotl(app, canvas, cx, cy, rw, rh):
                         width = 3, fill = 'black', smooth = True)
 
 def changeLives(app, foodCollected):
-    if len(app.lives) == 0:
-        appStarted(app)
-        app.start = False
     if foodCollected < app.minOil:
         app.lives.pop(0)
         print(app.lives)
@@ -275,8 +277,17 @@ def drawCustTimerButton(app, canvas):
         app.cx, int(mean(app.timerCoords[3], app.timerCoords[1])), 
         text=f"Set duration", font=f'Arial {fontSize} bold', fill = 'black')
 
+def drawGameOver(app, canvas):
+    fontDirections = font.Font(family = 'Comic Sans MS', size = 20, weight = 'bold')
+    canvas.create_text(app.width/2, app.height-640, text="""
+ Your Axolotl died from oil poisoning! 
+Press r to restart with a new Axolotl...""", fill='hot pink', font=fontDirections)
+    drawAxolotl(app, canvas, app.cx, app.cy, app.rw, app.rh)
+
 def redrawAll(app, canvas):
-    if app.start:
+    if app.gameOver:
+        drawGameOver(app, canvas)
+    elif app.start:
         canvas.create_rectangle(0, 0, app.width, app.height, fill = "light blue")
         fontDirections = font.Font(family = 'Comic Sans MS', size = 50, weight = 'bold')
         canvas.create_text(app.width/2, 150, text = "Save the Axolotl", fill = "hot pink", 
