@@ -135,7 +135,7 @@ def timerFired(app):
         app.count = 0
 
 def drawTimer(app, canvas):
-    fontDirections = font.Font(family = 'Comic Sans MS', size = 12, weight = 'bold')
+    fontDirections = font.Font(family = 'Comic Sans MS', size = 20, weight = 'bold')
     timeInSeconds = 30-app.totalTime//1000
     if timeInSeconds<0:
         timeInSeconds = 0
@@ -145,7 +145,7 @@ def drawTimer(app, canvas):
         canvas.create_text(app.width/2, app.height-640, text=f'Only {timeInSeconds} seconds left!', fill='hot pink', font = fontDirections)
 
 def drawCount(app, canvas):
-    fontDirections = font.Font(family = 'Comic Sans MS', size = 12, weight = 'bold')
+    fontDirections = font.Font(family = 'Comic Sans MS', size = 20, weight = 'bold')
     canvas.create_text(app.width/2, app.height-40, text=f'Score: {app.count}', fill='hot pink', 
                        font = fontDirections)
 
