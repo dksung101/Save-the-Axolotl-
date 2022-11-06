@@ -89,13 +89,12 @@ def getCellBounds(app, row, col):
 
 def timerFired(app):
     print(f"app.totalTime:{app.totalTime}")
-    if not app.timerConfigState:
+    if app.timerConfigState == False:
         app.totalTime+=app.timerDelay
-        if app.timerConfigState == False and app.totalTime%500 == 0 and app.totalTime<=30000:
+        if app.totalTime%500 == 0 and app.totalTime<=30000:
             createBubble(app) 
         moveBubbleUp(app)
-        if app.totalTime > 30000:
-            app.totalTime = 0
+        if app.totalTime > 30000: app.totalTime = 0
     if app.totalTime%1 == 0 and app.timerDuration != None:  # change delay here
         mins, secs = app.timerDuration // 60, app.timerDuration % 60
         app.timeFormatted = '{:02d}:{:02d}'.format(mins, secs)
@@ -116,7 +115,7 @@ def timerFired(app):
     else:
         app.mood = 'frown'
 
-    if app.totalTime == 29999 and app.timerConfigState == False:
+    if app.totalTime == 29950 and app.timerConfigState == False:
         changeLives(app, app.count)
         app.count = 0
 
