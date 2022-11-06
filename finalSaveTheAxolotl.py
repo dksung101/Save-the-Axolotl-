@@ -301,16 +301,16 @@ species in the wild?!
 Over the past few decades, oil spills, waste water 
 disposals, and many other environmental 
 factors has contributed to this specie’s decreasing population. 
-This productive and interactive application, will not only 
+This interactive application will not only 
 let you stay productive by managing your 
 time off your phone through a countdown timer, 
-but also, spreads awareness of the axolotls 
+but also spreads awareness of the axolotls 
 endangered from the oil spills. Also, once the timer 
-goes off, you can engage in an interactive 
+goes off, you can engage in an enticing 
 game where you need to pop as many oil bubbles that 
-arise keeping the axolotls save. If you don’t 
+arise, keeping the axolotls save. If you don’t 
 reach a minimum threshold given the set time, you 
-will lose a life risking Kimchee from dying!!!"""
+will lose a life, risking Kimchee from dying!!!"""
         inList = description.splitlines()
         for i in range(len(inList)):
             canvas.create_text(app.width/2, 200 + 20*i, text = inList[i].center(10, " "),
