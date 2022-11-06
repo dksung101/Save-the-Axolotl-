@@ -172,7 +172,7 @@ def drawLives(app, canvas):
                           start=0, extent=180, fill="red", outline = "red")
         canvas.create_polygon(cx - app.heartR*2, cy,
                               cx + app.heartR*2, cy,
-                              cx, cy*1.05, fill = "red")
+                              cx, cy*1.25, fill = "red")
 
 def redrawAll(app, canvas):
     drawAxolotl(app, canvas, app.cx, app.cy, app.rw, app.rh)
