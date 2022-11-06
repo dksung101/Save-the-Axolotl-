@@ -34,6 +34,7 @@ def appStarted(app):
     app.mood = 'happy'
     # timer
     # app.timeInSeconds = None    # this is the secondary 30s timer
+    app.secDuration = 30
     app.timerConfigState = None
     app.timerDuration = None
     app.timeFormatted = None
@@ -49,10 +50,9 @@ def keyPressed(app, event):
 def mousePressed(app, event):
     for (row, col, speed, radius) in app.bubbles:
         (x0, y0, x1, y1) = getCellBounds(app, row, col)
-        if (event.x >= x0-radius and event.x <= x1+radius) and (event.y >= y0-radius and event.y <= y1+radius):
+        if (event.x >= x0-radius and event.x <= x1+radius) and (event.y >= y0-radius and event.y <= y1+radius) and app.timerConfigState==False:
             app.bubbles.remove((row, col, speed, radius))
             app.count+=1
-            # popBubble(app, (row, col, speed))
 
     if app.timerConfigState == None and event.x <= app.timerCoords[2] and event.x >= app.timerCoords[0] \
         and event.y <= app.timerCoords[3] and event.y >= app.timerCoords[1]:
@@ -100,10 +100,10 @@ def timerFired(app):
     print(f"app.totalTime:{app.totalTime}")
     if app.timerConfigState == False:
         app.totalTime+=app.timerDelay
-        if app.totalTime%500 == 0 and app.totalTime<=30000:
+        if app.totalTime%500 == 0 and app.totalTime<=app.secDuration*1000:
             createBubble(app) 
         moveBubbleUp(app)
-        if app.totalTime > 30000: app.totalTime = 0
+        if app.totalTime > app.secDuration*1000: app.totalTime = 0
     if app.totalTime%1 == 0 and app.timerDuration != None:  # change delay here
         mins, secs = app.timerDuration // 60, app.timerDuration % 60
         app.timeFormatted = '{:02d}:{:02d}'.format(mins, secs)
@@ -115,7 +115,7 @@ def timerFired(app):
         app.timerDuration = None
 
 
-    if app.totalTime == 30000 and app.timerConfigState == False: 
+    if app.totalTime == app.secDuration*1000 and app.timerConfigState == False: 
         app.timerConfigState = None
 
     if app.timerConfigState==True:
@@ -130,13 +130,13 @@ def timerFired(app):
         app.mood = 'dead'
         app.gameOver = True
 
-    if app.totalTime == 29950 and app.timerConfigState == False:
+    if app.totalTime == app.secDuration*1000 - 50 and app.timerConfigState == False:
         changeLives(app, app.count)
         app.count = 0
 
 def drawTimer(app, canvas):
     fontDirections = font.Font(family = 'Comic Sans MS', size = 20, weight = 'bold')
-    timeInSeconds = 30-app.totalTime//1000
+    timeInSeconds = app.secDuration-app.totalTime//1000
     if timeInSeconds<0:
         timeInSeconds = 0
     if timeInSeconds > 10:
