@@ -268,6 +268,7 @@ def drawMainTimer(app, canvas):
         text=f"{app.timeFormatted}", font=f'Arial {fontSize} bold', fill='white')
     
 def drawCustTimerButton(app, canvas):
+    fontDirections = font.Font(family = 'Comic Sans MS', size = 25, weight = 'bold')
     fontSize = int((app.timerCoords[3]-app.timerCoords[1])//3)
     canvas.create_rectangle(
         app.timerCoords[0], app.timerCoords[1], 
@@ -275,7 +276,7 @@ def drawCustTimerButton(app, canvas):
         fill='white')
     canvas.create_text(
         app.cx, int(mean(app.timerCoords[3], app.timerCoords[1])), 
-        text=f"Set duration", font=f'Arial {fontSize} bold', fill = 'black')
+        text=f"set duration", font=fontDirections, fill = 'hot pink')
 
 def drawGameOver(app, canvas):
     fontDirections = font.Font(family = 'Comic Sans MS', size = 20, weight = 'bold')
