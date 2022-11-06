@@ -36,7 +36,7 @@ def mousePressed(app, event):
 def drawBubbles(app, canvas):
     for (row, col, speed, radius) in app.bubbles:
         (x0, y0, x1, y1) = getCellBounds(app, row, col)
-        canvas.create_oval(x0-radius, y0-radius, x1+radius, y1+radius, outline = 'black', width=1.5)
+        canvas.create_oval(x0-radius, y0-radius, x1+radius, y1+radius, outline = 'black', width=1.5, fill="black")
         
     
 def moveBubbleUp(app):
